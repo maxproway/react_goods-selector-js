@@ -1,6 +1,7 @@
 import 'bulma/css/bulma.css';
 import './App.scss';
 import { useState } from 'react';
+import cn from 'classnames';
 
 export const goods = [
   'Dumplings',
@@ -40,33 +41,32 @@ export const App = () => {
 
       <table className="table">
         <tbody>
-          {goods.map(good => (
-            <tr
-              data-cy="Good"
-              className={`${good === selectedGood ? 'has-background-success-light' : ''}
-              `}
-              key={good}
-            >
-              <td>
-                <button
-                  data-cy={good === selectedGood ? 'RemoveButton' : 'AddButton'}
-                  type="button"
-                  className={`button ${good === selectedGood ? 'is-info' : ''}`}
-                  onClick={() =>
-                    good === selectedGood
-                      ? setSelectedGood('')
-                      : setSelectedGood(good)
-                  }
-                >
-                  {good === selectedGood ? '-' : '+'}
-                </button>
-              </td>
+          {goods.map(good => {
+            const selected = good === selectedGood;
 
-              <td data-cy="GoodTitle" className="is-vcentered">
-                {good}
-              </td>
-            </tr>
-          ))}
+            return (
+              <tr
+                data-cy="Good"
+                className={cn({ 'has-background-success-light': selected })}
+                key={good}
+              >
+                <td>
+                  <button
+                    data-cy={selected ? 'RemoveButton' : 'AddButton'}
+                    type="button"
+                    className={cn('button', { 'is-info': selected })}
+                    onClick={() => setSelectedGood(selected ? '' : good)}
+                  >
+                    {selected ? '-' : '+'}
+                  </button>
+                </td>
+
+                <td data-cy="GoodTitle" className="is-vcentered">
+                  {good}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </main>
